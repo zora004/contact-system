@@ -4,6 +4,7 @@
 
 - **composer install**
 - **php artisan key:generate**
+- **npm install**
 - **copy and paste .env.example**
 - **rename the copied .env.example into .env**
 - **DB_DATABASE to your database name**
