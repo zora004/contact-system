@@ -26,6 +26,8 @@ class UpdateUserRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'email' => ['required', Rule::unique('users')->ignore($request->id)],
+            'contact_no' => ['required', 'string'],
+            'company' => ['required', 'string'],
             'username' => ['required', Rule::unique('users')->ignore($request->id)]
         ];
     }

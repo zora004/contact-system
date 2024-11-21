@@ -1,30 +1,10 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.app')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Laravel</title>
-    @vite('resources/css/app.css')
-    <script src="sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="sweetalert2.min.css">
-</head>
+@section('title', 'Login')
 
-<body>
-    <header class="bg-cyan-800 text-white p-4 flex justify-between items-center">
-        <!-- Page Title on the Left -->
-        <div class="text-xl font-semibold">
-            Contacts
-        </div>
-    
-        <!-- Right-side buttons -->
-        <div class="space-x-4">
-            <a href="javascript:void(0)" class="px-4 py-2 text-white hover:bg-green-600">Add Contact</a>
-            <a href="javascript:void(0)" class="px-4 py-2 text-white hover:bg-gray-600">Contacts</a>
-            <a href="javascript:void(0)" class="px-4 py-2 text-white hover:bg-red-600">Logout</a>
-        </div>
-    </header>
-    
+@section('content')
+    {{ $token = session('token'); }}
+    {{ dd($token); }}
     <div class="flex flex-col items-center justify-center mt-6">
         <table class="table-auto  shadow-2xl border-2 border-cyan-800 w-6/12" id="contacts">
             <thead>
@@ -42,19 +22,19 @@
 
         <div id="pagination-controls" class="mt-4 flex justify-center space-x-2"></div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         let fetchUsers, editButton, deleteButton;
         $(document).ready(function() {
             const url = '/api/users'
-
+            const token = localStorage.getItem('token')
             fetchUsers = function(page = 1) {
                 $.ajax({
                     url: `${url}?page=${page}`,
                     method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`, // Add the token to the Authorization header
+                        'Content-Type': 'application/json',
+                    },
                     dataType: 'json',
                     success: function(data) {
                         const tableBody = $("#contacts tbody");
@@ -142,6 +122,4 @@
             fetchUsers();
         })
     </script>
-</body>
-
-</html>
+@endsection

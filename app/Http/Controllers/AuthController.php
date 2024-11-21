@@ -12,10 +12,15 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    public function index()
+    {
+        return view('auth.login');
+    }
+
     public function login(LoginUserRequest $request)
     {
         $request->validated($request->all());
-        $credentials = $request->only('username', 'password');
+        $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
@@ -24,7 +29,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Login success',
-                'token' => $token
+                'token' => $token,
             ], 200);
         }
         return response()->json([
@@ -40,7 +45,6 @@ class AuthController extends Controller
         User::create([
             'name' => strtolower($request->name),
             'email' => strtolower($request->email),
-            'username' => strtolower($request->username),
             'password' => Hash::make($request->password),
         ]);
 
@@ -59,4 +63,3 @@ class AuthController extends Controller
         ], 200);
     }
 }
-
