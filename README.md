@@ -6,5 +6,5 @@
 - **copy and paste .env.example**
 - **rename the copied .env.example into .env**
 - **DB_DATABASE to your database name**
-- **run php artisan migrate**
+- **run php artisan migrate --seed**
 - **run php artisan serve**
